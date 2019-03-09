@@ -33,7 +33,7 @@ public class MapOpen extends AppCompatActivity {
     private GoogleMap mMap;
     double latitide = 25.430676;
     double longitude = 81.772314;
-    private static final float DEFAULT_ZOOM = 20f;
+    private static final float DEFAULT_ZOOM = 18f;
     private EditText searchProff;
     private ImageButton searchBtn;
 
