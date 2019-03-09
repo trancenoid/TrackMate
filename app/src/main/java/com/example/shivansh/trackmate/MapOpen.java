@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MapOpen extends AppCompatActivity {
 
@@ -33,7 +35,7 @@ public class MapOpen extends AppCompatActivity {
     private GoogleMap mMap;
     double latitide = 25.430676;
     double longitude = 81.772314;
-    private static final float DEFAULT_ZOOM = 20f;
+    private static final float DEFAULT_ZOOM = 18f;
     private EditText searchProff;
     private ImageButton searchBtn;
 
@@ -42,6 +44,8 @@ public class MapOpen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_open);
+        final Button more = findViewById(R.id.more_button);
+        more.setVisibility(View.GONE);
 
         ArrayList<LocationClass> locationArrayList = new ArrayList<>();
         locationArrayList.add(new LocationClass("Admin Building",new LatLng(latitide,longitude),"Camera1"));
@@ -53,8 +57,8 @@ public class MapOpen extends AppCompatActivity {
 
 
 
-        searchProff = (EditText)findViewById(R.id.searchProfess);
-        searchBtn = (ImageButton)findViewById(R.id.searchBtn);
+        searchProff = findViewById(R.id.searchProfess);
+        searchBtn = findViewById(R.id.searchBtn);
         final ArrayList<LatLng> latLngArrayList = new ArrayList<>();
         latLngArrayList.add(new LatLng(25.4312,81.7709));
         getLocationPermission();
@@ -65,9 +69,17 @@ public class MapOpen extends AppCompatActivity {
                 LatLng loc = new LatLng(latitide,longitude);
                 if (searchProff.getText().toString().compareTo("Shivansh") == 0){
                     loc = latLngArrayList.get(0);
+                    more.setVisibility(View.VISIBLE);
                 }
                 moveCamera(loc,DEFAULT_ZOOM,searchProff.getText().toString());
                 mMap.setMyLocationEnabled(true);
+            }
+        });
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomDialogClass cdd=new CustomDialogClass(MapOpen.this);
+                cdd.show();
             }
         });
     }

@@ -1,12 +1,26 @@
 package com.example.shivansh.trackmate;
 
 public class Professor {
-    private String name, email, location, nextAvailable;
+    private String name, email, location, nextAvailable, time;
     private Boolean isOnline;
     private int type;
 
-    Professor(String name, String email, String location, String nextAvailable, Boolean isOnline, Integer type) {
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setTypee(int type) {
+        this.type = type;
+    }
+
+    Professor(String name, String email, String location, String nextAvailable, Boolean isOnline, Integer type, String time) {
         this.name = name;
+        this.time = time;
+
         this.email = email;
         this.location = location;
         this.nextAvailable = nextAvailable;

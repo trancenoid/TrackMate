@@ -53,14 +53,23 @@ public class MainActivity extends AppCompatActivity {
         final ProgressBar progress = findViewById(R.id.progress_bar);
         FloatingActionButton fab = findViewById(R.id.new_request);
         final Button openMap = findViewById(R.id.open_map);
+        openMap.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MapOpen.class));
+            }
+        });
 
         if (type == 0) {
-            fab.setVisibility(View.GONE);
             openMap.setVisibility(View.GONE);
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setVisibility(View.GONE);
             mLayoutManager = new LinearLayoutManager(this);
             mRecyclerView.setLayoutManager(mLayoutManager);
+            fab.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, ProffData.class));
+                }
+            });
 
             final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("request");
             Log.e("dada",auth.getCurrentUser().getEmail());

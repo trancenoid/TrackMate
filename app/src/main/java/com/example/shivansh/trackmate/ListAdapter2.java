@@ -58,9 +58,9 @@ public class ListAdapter2 extends RecyclerView.Adapter<ListAdapter2.MyViewHolder
             holder.status.setText("Status : Approved");
         }
         holder.professor.setText("Professor : "+mDataset.get(i).getProfessor());
-        holder.description.setText(mDataset.get(i).getReieve());
-        holder.date.setText("Date : "+mDataset.get(i).getRecieveDate());
-        holder.time.setText("Time : "+mDataset.get(i).getRecieveTime());
+        holder.description.setText(mDataset.get(i).getSend());
+        holder.date.setText("Date : "+mDataset.get(i).getSendDate());
+        holder.time.setText("Time : "+mDataset.get(i).getSendTime());
     }
 
     @Override
