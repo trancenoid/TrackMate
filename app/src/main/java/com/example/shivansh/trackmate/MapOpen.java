@@ -1,6 +1,8 @@
 package com.example.shivansh.trackmate;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -40,6 +42,7 @@ public class MapOpen extends AppCompatActivity {
     private static final float DEFAULT_ZOOM = 18f;
     private EditText searchProff;
     private ImageButton searchBtn;
+    private ArrayList<Professor> professors = new ProffList().onlineProfessors;
 
 
     @Override
@@ -49,7 +52,7 @@ public class MapOpen extends AppCompatActivity {
         final Button more = findViewById(R.id.more_button);
         more.setVisibility(View.GONE);
 
-        ArrayList<LocationClass> locationArrayList = new ArrayList<>();
+        final ArrayList<LocationClass> locationArrayList = new ArrayList<>();
         locationArrayList.add(new LocationClass("Admin Building",new LatLng(latitide,longitude),"Camera1"));
         locationArrayList.add(new LocationClass("CC-1",new LatLng(25.4315,81.7701),"Camera2"));
         locationArrayList.add(new LocationClass("CC-3",new LatLng(25.4321,81.7703),"Camera3"));
@@ -68,28 +71,64 @@ public class MapOpen extends AppCompatActivity {
         searchProff.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
-                more.setVisibility(View.GONE);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                more.setVisibility(View.GONE);
+
+            }
         });
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int flag = 0;
                 LatLng loc = new LatLng(latitide,longitude);
-                if (searchProff.getText().toString().compareTo("Shivansh") == 0){
-                    loc = latLngArrayList.get(0);
-                    more.setVisibility(View.VISIBLE);
+//                if (searchProff.getText().toString().compareTo("Shivansh") == 0){
+//                    loc = latLngArrayList.get(0);
+//                    more.setVisibility(View.VISIBLE);
+//                }
+
+
+                for(int i = 0 ; i < professors.size() ; i++){
+                    if(professors.get(i).getName().compareTo(searchProff.getText().toString()) == 0){
+                        more.setVisibility(View.VISIBLE);
+                        for(int j = 0 ; j < locationArrayList.size() ; j++){
+                            if(professors.get(i).getLocation().compareTo(locationArrayList.get(j).getName()) == 0){
+                                loc = locationArrayList.get(j).getLatLng();
+                                flag =1;
+                                break;
+                            }
+                        }
+                        if(flag == 1){
+                            break;
+                        }
+                    }
                 }
-                if (searchProff.getText().toString().compareTo("r") == 0){
-                    loc = latLngArrayList.get(0);
-                    more.setVisibility(View.VISIBLE);
+
+                if(flag == 0){
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MapOpen.this);
+                        alertDialogBuilder.setMessage("Professor Not Found !!");
+                        alertDialogBuilder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+
                 }
-                moveCamera(loc,DEFAULT_ZOOM,searchProff.getText().toString());
-                mMap.setMyLocationEnabled(true);
+//                if (searchProff.getText().toString().compareTo("r") == 0){
+//                    loc = latLngArrayList.get(0);
+//
+//                }
+                if(flag!=0) {
+                    moveCamera(loc, DEFAULT_ZOOM, searchProff.getText().toString());
+                    mMap.setMyLocationEnabled(true);
+                }
             }
         });
         more.setOnClickListener(new View.OnClickListener() {
