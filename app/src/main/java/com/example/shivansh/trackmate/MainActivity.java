@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         auth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
+        ProffList p = new ProffList();
         SharedPreferences prefs = getSharedPreferences("name", MODE_PRIVATE);
         Integer type = prefs.getInt("type", -1);
         Log.e("type", String.valueOf(type));

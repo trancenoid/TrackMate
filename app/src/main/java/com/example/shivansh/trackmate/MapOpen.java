@@ -8,6 +8,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -63,11 +65,26 @@ public class MapOpen extends AppCompatActivity {
         latLngArrayList.add(new LatLng(25.4312,81.7709));
         getLocationPermission();
 
+        searchProff.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                more.setVisibility(View.GONE);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LatLng loc = new LatLng(latitide,longitude);
                 if (searchProff.getText().toString().compareTo("Shivansh") == 0){
+                    loc = latLngArrayList.get(0);
+                    more.setVisibility(View.VISIBLE);
+                }
+                if (searchProff.getText().toString().compareTo("r") == 0){
                     loc = latLngArrayList.get(0);
                     more.setVisibility(View.VISIBLE);
                 }
@@ -78,7 +95,7 @@ public class MapOpen extends AppCompatActivity {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomDialogClass cdd=new CustomDialogClass(MapOpen.this);
+                CustomDialogClass cdd=new CustomDialogClass(MapOpen.this,searchProff.getText().toString());
                 cdd.show();
             }
         });

@@ -1,5 +1,7 @@
 package com.example.shivansh.trackmate;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
 public class ProffData extends AppCompatActivity {
@@ -75,6 +79,7 @@ public class ProffData extends AppCompatActivity {
                 final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("professor");
                 Log.e("dadajee",auth.getCurrentUser().getEmail());
                 mDatabase.orderByChild("email").equalTo(auth.getCurrentUser().getEmail()).addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         if(!isDone[0]) {
@@ -86,8 +91,12 @@ public class ProffData extends AppCompatActivity {
                                 } else {
                                     postSnapshot.getRef().child("location").setValue("Not Available");
                                 }
+                                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                                LocalDateTime now = LocalDateTime.now();
+                                String[] data = dtf.format(now).split(" ");
                                 postSnapshot.getRef().child("online").setValue(avail);
                                 postSnapshot.getRef().child("nextAvailable").setValue(nextAvail.getText().toString());
+                                postSnapshot.getRef().child("time").setValue(data[1]);
                                 isDone[0] = true;
                                 finish();
                             }

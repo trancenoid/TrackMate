@@ -1,30 +1,40 @@
 package com.example.shivansh.trackmate;
 
+import android.util.Log;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class ProffList {
 
-    private String Camera;
-    private ArrayList<String> ProffName = new ArrayList<>();
+    private FirebaseAuth auth;
+    public ArrayList<Professor> onlineProfessors = new ArrayList<>();
 
-    public ProffList(String camera, ArrayList<String> proffName) {
-        Camera = camera;
-        ProffName = proffName;
-    }
+    ProffList() {
+        auth = FirebaseAuth.getInstance();
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("professor");
+        Log.e("dadajee",auth.getCurrentUser().getEmail());
+        mDatabase.orderByChild("online").equalTo(true).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                onlineProfessors.clear();
+                Log.e("check", String.valueOf(snapshot.getChildrenCount()));
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Professor trans = postSnapshot.getValue(Professor.class);
+                    onlineProfessors.add(trans);
+                }
+                Log.e("TotalOnline", String.valueOf(onlineProfessors.size()));
 
-    public String getCamera() {
-        return Camera;
-    }
-
-    public void setCamera(String camera) {
-        Camera = camera;
-    }
-
-    public ArrayList<String> getProffName() {
-        return ProffName;
-    }
-
-    public void setProffName(ArrayList<String> proffName) {
-        ProffName = proffName;
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+            }
+        });
     }
 }
