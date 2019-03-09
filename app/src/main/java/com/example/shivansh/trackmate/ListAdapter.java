@@ -85,7 +85,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
         }
         holder.regarding.setText("Regarding :"+mDataset.get(i).getRegarding());
         holder.name.setText("From :"+mDataset.get(i).getStudent());
-        holder.roll.setText("Roll : "+mDataset.get(i).getRoll());
+        holder.roll.setText("Roll : IIT2017097");
         holder.date.setText("Date : "+mDataset.get(i).getSendDate());
         holder.time.setText("Time : "+mDataset.get(i).getSendTime());
         holder.description.setText(mDataset.get(i).getSend());
@@ -99,11 +99,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
                 holder.status.setText("APPROVED");
                 holder.status.setBackgroundColor(ContextCompat.getColor(mContext, R.color.green));
                 final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("request");
-                Log.e("dadajee",auth.getCurrentUser().getEmail());
+                Log.e("dadajeehere",auth.getCurrentUser().getEmail());
                 mDatabase.orderByChild("professor").equalTo(auth.getCurrentUser().getEmail()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        Log.e("check", String.valueOf(snapshot.getChildrenCount()));
+                        Log.e("check total", String.valueOf(snapshot.getChildrenCount()));
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             Requests trans = postSnapshot.getValue(Requests.class);
                             if(trans.getSend().equals(mDataset.get(a).getSend())) {
@@ -126,7 +126,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
                 holder.status.setText("DECLINED");
                 holder.status.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
                 final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("request");
-                mDatabase.orderByChild("professor").equalTo(auth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                mDatabase.orderByChild("professor").equalTo(auth.getCurrentUser().getEmail()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (type == 0) {
-            openMap.setVisibility(View.GONE);
+            openMap.setVisibility(View.INVISIBLE);
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setVisibility(View.GONE);
             mLayoutManager = new LinearLayoutManager(this);
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             });
         } else if (type == 1) {
             mRecyclerView.setVisibility(View.GONE);
-            openMap.setVisibility(View.GONE);
+            openMap.setVisibility(View.INVISIBLE);
             fab.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     startActivity(new Intent(MainActivity.this, NewRequestActivity.class));

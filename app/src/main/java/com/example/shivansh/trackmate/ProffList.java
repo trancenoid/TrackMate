@@ -20,7 +20,7 @@ public class ProffList {
         auth = FirebaseAuth.getInstance();
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("professor");
         Log.e("dadajee",auth.getCurrentUser().getEmail());
-        mDatabase.orderByChild("online").equalTo(true).addValueEventListener(new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 onlineProfessors.clear();

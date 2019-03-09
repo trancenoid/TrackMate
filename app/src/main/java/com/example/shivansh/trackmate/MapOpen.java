@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -37,8 +38,8 @@ public class MapOpen extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private boolean mLocationPermissionGranted = false;
     private GoogleMap mMap;
-    double latitide = 25.430676;
-    double longitude = 81.772314;
+    double latitide = 25.4303;
+    double longitude = 81.7706;
     private static final float DEFAULT_ZOOM = 18f;
     private EditText searchProff;
     private ImageButton searchBtn;
@@ -92,12 +93,25 @@ public class MapOpen extends AppCompatActivity {
 //                }
 
 
+                Log.e("professors : ", String.valueOf(professors.size()));
+                Log.e("locations : ", String.valueOf(locationArrayList.size()));
                 for(int i = 0 ; i < professors.size() ; i++){
-                    if(professors.get(i).getName().compareTo(searchProff.getText().toString()) == 0){
+                    Log.e("log","Teration1");
+                    if(professors.get(i).getName().equals(searchProff.getText().toString())){
+                        if(!professors.get(i).getOnline()) {
+                            flag =2;
+                        }
                         more.setVisibility(View.VISIBLE);
+
                         for(int j = 0 ; j < locationArrayList.size() ; j++){
-                            if(professors.get(i).getLocation().compareTo(locationArrayList.get(j).getName()) == 0){
-                                loc = locationArrayList.get(j).getLatLng();
+                            Log.e("log","Teration12");
+                            Log.e("checksum",professors.get(i).getLocation()+" "+locationArrayList.get(j).getName());
+                            if(professors.get(i).getLocation().equals(locationArrayList.get(j).getName())){
+                                Log.e("Log","match");
+                                if(professors.get(i).getOnline()) {
+                                    loc = locationArrayList.get(j).getLatLng();
+                                }
+                                Log.e("jhgsdgisd","jgsiusgiugifs");
                                 flag =1;
                                 break;
                             }
@@ -108,9 +122,13 @@ public class MapOpen extends AppCompatActivity {
                     }
                 }
 
-                if(flag == 0){
+                if(flag != 1){
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MapOpen.this);
-                        alertDialogBuilder.setMessage("Professor Not Found !!");
+                        if(flag==2) {
+                            alertDialogBuilder.setMessage("Professor is Offline !!");
+                        } else if (flag==0) {
+                            alertDialogBuilder.setMessage("Professor Not Found !!");
+                        }
                         alertDialogBuilder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -125,7 +143,7 @@ public class MapOpen extends AppCompatActivity {
 //                    loc = latLngArrayList.get(0);
 //
 //                }
-                if(flag!=0) {
+                if(flag==1) {
                     moveCamera(loc, DEFAULT_ZOOM, searchProff.getText().toString());
                     mMap.setMyLocationEnabled(true);
                 }
