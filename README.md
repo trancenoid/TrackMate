@@ -1,5 +1,9 @@
 # TrackMate
 ## 2nd Rank in BHacks'19 - IIIT Allahabad
+## Purpose
+A simple to use application which can help students to find professors and administration staff in the campus for important work, while meeting privacy,
+personal space and time considerations. We aim to make it convenient for the two parties to communicate through an official channel, and make college life
+a bit easier for everyone.
 
 ## Features
 
@@ -8,6 +12,7 @@
 - Professors can manually update their locations.
 - Professors can go offline if they want.
 - Front Face, Side face and Multiple faces recognition.
+- Filter bad language.
 
 ## Team  'HackForFood'
 - [Shivansh Tiwari](https://github.com/shiv07tiwari)
